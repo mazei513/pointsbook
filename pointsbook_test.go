@@ -25,11 +25,11 @@ func TestNewBook(t *testing.T) {
 	})
 }
 
-func TestBookAddPoints(t *testing.T) {
+func TestBookAdd(t *testing.T) {
 	b, err := pointsbook.NewBook("book-1")
 	assertInitialBookState(t, b, err, "book-1")
 
-	b.AddPoints(1)
+	b.Add(1)
 
 	if b.CurrentPoints() != 1 {
 		t.Fatalf("expected 1 point, got %d", b.CurrentPoints())
@@ -58,7 +58,7 @@ func assertInitialBookState(t *testing.T, b *pointsbook.Book, err error, id stri
 func BenchmarkCurrentPoints(b *testing.B) {
 	bb, _ := pointsbook.NewBook("bench-book")
 	for i := 0; i < 1000; i++ {
-		bb.AddPoints(uint(i))
+		bb.Add(uint(i))
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
@@ -70,7 +70,7 @@ func BenchmarkCurrentPoints(b *testing.B) {
 func TestBookSpendPoints(t *testing.T) {
 	b, err := pointsbook.NewBook("book-b")
 	assertInitialBookState(t, b, err, "book-b")
-	b.AddPoints(10)
+	b.Add(10)
 	assertBookCurrentPoints(t, b, 10)
 
 	ok := b.Spend(5)

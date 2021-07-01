@@ -24,7 +24,7 @@ func (b *Book) CurrentPoints() int {
 	return p
 }
 
-func (b *Book) AddPoints(p uint) {
+func (b *Book) Add(p uint) {
 	b.trxs = append(b.trxs, int(p))
 }
 
