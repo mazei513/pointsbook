@@ -1,10 +1,13 @@
 package pointsbook
 
-import "errors"
+import (
+	"errors"
+)
 
 type Book struct {
-	id   string
-	trxs []int
+	id            string
+	trxs          []int
+	lastCommitIdx int
 }
 
 func NewBook(id string) (*Book, error) {
@@ -12,6 +15,13 @@ func NewBook(id string) (*Book, error) {
 		return nil, errors.New("empty ID")
 	}
 	return &Book{id: id}, nil
+}
+
+func BookFromTransactions(id string, trxs []int) (*Book, error) {
+	if id == "" {
+		return nil, errors.New("empty ID")
+	}
+	return &Book{id: id, trxs: trxs, lastCommitIdx: len(trxs)}, nil
 }
 
 func (b *Book) ID() string { return b.id }
@@ -29,6 +39,10 @@ func (b *Book) Add(p uint) {
 }
 
 func (b *Book) Transactions() []int { return b.trxs }
+
+func (b *Book) UncommittedTransactions() []int {
+	return b.trxs[b.lastCommitIdx:]
+}
 
 func (b *Book) Spend(p uint) (ok bool) {
 	pi := int(p)
