@@ -44,6 +44,10 @@ func (b *Book) UncommittedTransactions() []int {
 	return b.trxs[b.lastCommitIdx:]
 }
 
+func (b *Book) CommitTransactions() {
+	b.lastCommitIdx = len(b.trxs)
+}
+
 func (b *Book) Spend(p uint) (ok bool) {
 	pi := int(p)
 	if b.CurrentPoints() < pi {

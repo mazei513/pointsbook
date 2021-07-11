@@ -81,6 +81,19 @@ func TestBookSpendPoints(t *testing.T) {
 	assertUncommittedTrxLen(t, b, 1)
 }
 
+func TestBookCommitTransactions(t *testing.T) {
+	b, err := pointsbook.NewBook("book-1")
+	assertInitialBookState(t, b, err, "book-1")
+
+	b.Add(1)
+
+	assertUncommittedTrxLen(t, b, 1)
+
+	b.CommitTransactions()
+
+	assertUncommittedTrxLen(t, b, 0)
+}
+
 func assertInitialBookState(t *testing.T, b *pointsbook.Book, err error, id string) {
 	t.Helper()
 	assertNoErr(t, err)
