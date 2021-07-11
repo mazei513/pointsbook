@@ -131,7 +131,7 @@ func (s *Store) GetBook(ctx context.Context, id string) (*pointsbook.Book, error
 		return nil, err
 	}
 	if i != 1 {
-		return nil, err
+		return nil, errors.New("book not found or duplicates found")
 	}
 
 	var btrxs []int
